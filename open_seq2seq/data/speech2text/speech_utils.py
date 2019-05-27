@@ -289,8 +289,8 @@ def get_speech_features(signal, sample_freq, params):
     if mel_basis is not None and sample_freq != params["sample_freq"]:
       raise ValueError(
           ("The sampling frequency set in params {} does not match the "
-           "frequency {} read from file {}").format(params["sample_freq"],
-                                                    sample_freq, filename)
+           "frequency {} read from file").format(params["sample_freq"],
+                                                    sample_freq)
       )
     features, duration = get_speech_features_librosa(
         signal, sample_freq, num_features, features_type,
