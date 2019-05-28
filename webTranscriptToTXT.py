@@ -15,5 +15,7 @@ def webTranscriptToTXT(path):
     with open(path[0:-12] + 'converted_transcript.txt', 'w') as file:
         file.write(text)
 
+    return text
+
 if __name__ == '__main__':
     webTranscriptToTXT(sys.argv[1])

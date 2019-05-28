@@ -18,11 +18,10 @@ base_params = {
     "num_epochs": 400,
 
     "num_gpus": 1,
-    "batch_size_per_gpu": 64,
+    "batch_size_per_gpu": 32,
     "iter_size": 1,
 
     "load_model": 'jasper_checkpoint/',
-    "logdir": 'jasper_logdir/',
     "save_summaries_steps": 100,
     "print_loss_steps": 10,
     "print_samples_steps": 2200,
@@ -165,14 +164,14 @@ base_params = {
         "use_language_model": False,
 
         # params for decoding the sequence with language model
-        # "beam_width": 2048,
-        # "alpha": 2.0,
-        # "beta": 1.5,
+        "beam_width": 2048,
+        "alpha": 2.0,
+        "beta": 1.5,
 
-        # "decoder_library_path": "ctc_decoder_with_lm/libctc_decoder_with_kenlm.so",
-        # "lm_path": "language_model/4-gram.binary",
-        # "trie_path": "language_model/trie.binary",
-        # "alphabet_config_path": "open_seq2seq/test_utils/toy_speech_data/vocab.txt",
+        "decoder_library_path": "ctc_decoder_with_lm/libctc_decoder_with_kenlm.so",
+        "lm_path": "language_model/4-gram.binary",
+        "trie_path": "language_model/trie.binary",
+        "alphabet_config_path": "open_seq2seq/test_utils/toy_speech_data/vocab.txt",
 
         "infer_logits_to_pickle": False,
     },
@@ -224,8 +223,7 @@ infer_params = {
     "data_layer": Speech2TextDataLayer,
     "data_layer_params": {
         "dataset_files": [
-            "data/podcast/podcast.csv",
-            # "data/librispeech/librivox-test-clean.csv",
+            # insert path to csv here ,
         ],
         "shuffle": False,
     },
