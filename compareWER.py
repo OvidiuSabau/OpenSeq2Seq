@@ -1,33 +1,7 @@
-import Levenshtein as Lev
 from sys import argv
 from time import time
 
-def wer(pathTruth, pathHypothesis):
-
-    with open(pathTruth, 'r') as file:
-        truth = file.read()
-
-    with open(pathHypothesis, 'r') as file:
-        hypothesis = file.read()
-
-
-    # build mapping of words to integers
-    b = set(truth.split() + hypothesis.split())
-    word2char = dict(zip(b, range(len(b))))
-
-    # map the words to a char array (Levenshtein packages only accepts
-    # strings)
-    w1 = [chr(word2char[w]) for w in truth.split()]
-    w2 = [chr(word2char[w]) for w in hypothesis.split()]
-
-    result = Lev.distance(''.join(w1), ''.join(w2))
-
-    print(result)
-
-    return result
-
-
-def alternate(pathTruth, pathHypothesis, debug=False):
+def wer(pathTruth, pathHypothesis, debug=False):
 
     with open(pathTruth, 'r') as file:
         truth = file.read()

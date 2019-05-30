@@ -5,7 +5,8 @@ from makeCSV import makeCSV
 import sys
 from subprocess import call
 import os
-from jiwer import wer
+
+
 
 def doItAll(dir):
 
@@ -13,6 +14,7 @@ def doItAll(dir):
 
     # Convert from MP3 to WAV, change channels to 1
     # change sample-rate to 16000, and split every 5 seconds
+
 
     print('\n\n ** Splitting and converting MP3')
     splitAndConvertMP3(dir + '/original.mp3', 5)
@@ -34,20 +36,21 @@ def doItAll(dir):
 
     print('\n\n ** Calling model from terminal')
     # Call the model from terminal
-    call_args = ['python', 'run.py', '--config_file=' + dir + "/config.py", '--mode=infer', '--infer_output=' + dir + '/model_output.txt']
+    call_args = ['python', 'run.py', '--config_file=' + dir + "/config.py", '--mode=infer', '--infer_output_file=' + dir + '/model_output.txt']
     call(call_args)
 
+    infer2text(dir + 'model_output.txt')
 
-    # If web transcript is provided, parse it from the NPR style and compare the WER
-    if os.path.isfile(dir + '/original.txt'):
-        print('\n\n Calculating WER')
-        original = webTranscriptToTXT(dir + '/original.txt')
-        predicted = infer2text(dir + '/model_output.txt')
-        print(wer(original, predicted))
-
-    else:
-        print('No web transcript provided')
-        infer2text(dir + '/model_output.txt')
+    # # If web transcript is provided, parse it from the NPR style and compare the WER
+    # if os.path.isfile(dir + '/original.txt'):
+    #     print('\n\n Calculating WER')
+    #     original = webTranscriptToTXT(dir + '/original.txt')
+    #     predicted = infer2text(dir + '/model_output.txt')
+    #     compareWer()
+    #
+    # else:
+    #     print('No web transcript provided')
+    #     infer2text(dir + '/model_output.txt')
 
 
 if __name__ == '__main__':
