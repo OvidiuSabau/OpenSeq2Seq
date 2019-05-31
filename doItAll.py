@@ -39,7 +39,7 @@ def doItAll(dir):
     call_args = ['python', 'run.py', '--config_file=' + dir + "/config.py", '--mode=infer', '--infer_output_file=' + dir + '/model_output.txt']
     call(call_args)
 
-    infer2text(dir + 'model_output.txt')
+    infer2text(dir + '/model_output.txt')
 
     # # If web transcript is provided, parse it from the NPR style and compare the WER
     # if os.path.isfile(dir + '/original.txt'):
