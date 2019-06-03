@@ -130,5 +130,5 @@ def wer(pathTruth, pathHypothesis, debug=False):
 
 if __name__ == "__main__":
     t0 = time()
-    wer(argv[1], argv[2])
+    quickWER(argv[1], argv[2])
     print(time()-t0)

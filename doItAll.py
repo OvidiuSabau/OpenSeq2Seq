@@ -17,7 +17,7 @@ def doItAll(dir):
 
 
     print('\n\n ** Splitting and converting MP3')
-    splitAndConvertMP3(dir + '/original.mp3', 5)
+    splitAndConvertMP3(dir + '/original.mp3')
 
     print('\n\n ** Reading base config file')
     # Read Base Config File
