@@ -41,6 +41,8 @@ def _download_and_preprocess_data(data_dir):
   # Conditionally download data to data_dir
   print("Downloading Librivox data set (55GB) into {} if not already present...".format(data_dir))
   with tqdm.tqdm(total=7) as bar:
+
+    TED_LIUM_URL = "http://www.openslr.org/resources/51/TEDLIUM_release-3.tgz"
     # TRAIN_CLEAN_100_URL = "http://www.openslr.org/resources/12/train-clean-100.tar.gz"
     # TRAIN_CLEAN_360_URL = "http://www.openslr.org/resources/12/train-clean-360.tar.gz"
     # TRAIN_OTHER_500_URL = "http://www.openslr.org/resources/12/train-other-500.tar.gz"
@@ -48,10 +50,14 @@ def _download_and_preprocess_data(data_dir):
     # DEV_CLEAN_URL = "http://www.openslr.org/resources/12/dev-clean.tar.gz"
     # DEV_OTHER_URL = "http://www.openslr.org/resources/12/dev-other.tar.gz"
 
-    TEST_CLEAN_URL = "http://www.openslr.org/resources/12/test-clean.tar.gz"
-    TEST_OTHER_URL = "http://www.openslr.org/resources/12/test-other.tar.gz"
+    # TEST_CLEAN_URL = "http://www.openslr.org/resources/12/test-clean.tar.gz"
+    # TEST_OTHER_URL = "http://www.openslr.org/resources/12/test-other.tar.gz"
 
     def filename_of(x): return os.path.split(x)[1]
+
+    ted_lium = _maybe_download(filename_of(TED_LIUM_URL), data_dir, TED_LIUM_URL)
+    bar.update(1)
+
     # train_clean_100 = _maybe_download(filename_of(TRAIN_CLEAN_100_URL), data_dir, TRAIN_CLEAN_100_URL)
     # bar.update(1)
     # train_clean_360 = _maybe_download(filename_of(TRAIN_CLEAN_360_URL), data_dir, TRAIN_CLEAN_360_URL)
@@ -63,11 +69,11 @@ def _download_and_preprocess_data(data_dir):
     # bar.update(1)
     # dev_other = _maybe_download(filename_of(DEV_OTHER_URL), data_dir, DEV_OTHER_URL)
     # bar.update(1)
-
-    test_clean = _maybe_download(filename_of(TEST_CLEAN_URL), data_dir, TEST_CLEAN_URL)
-    bar.update(1)
-    test_other = _maybe_download(filename_of(TEST_OTHER_URL), data_dir, TEST_OTHER_URL)
-    bar.update(1)
+    #
+    # test_clean = _maybe_download(filename_of(TEST_CLEAN_URL), data_dir, TEST_CLEAN_URL)
+    # bar.update(1)
+    # test_other = _maybe_download(filename_of(TEST_OTHER_URL), data_dir, TEST_OTHER_URL)
+    # bar.update(1)
 
   # Conditionally extract LibriSpeech data
   # We extract each archive into data_dir, but test for existence in
@@ -77,22 +83,25 @@ def _download_and_preprocess_data(data_dir):
     LIBRIVOX_DIR = "LibriSpeech"
     work_dir = os.path.join(data_dir, LIBRIVOX_DIR)
 
-    # _maybe_extract(data_dir, os.path.join(LIBRIVOX_DIR, "train-clean-100"), train_clean_100)
-    # bar.update(1)
-    # _maybe_extract(data_dir, os.path.join(LIBRIVOX_DIR, "train-clean-360"), train_clean_360)
-    # bar.update(1)
-    # _maybe_extract(data_dir, os.path.join(LIBRIVOX_DIR, "train-other-500"), train_other_500)
-    # bar.update(1)
-    #
-    # _maybe_extract(data_dir, os.path.join(LIBRIVOX_DIR, "dev-clean"), dev_clean)
-    # bar.update(1)
-    # _maybe_extract(data_dir, os.path.join(LIBRIVOX_DIR, "dev-other"), dev_other)
-    # bar.update(1)
+    _maybe_extract(data_dir, os.path.join(LIBRIVOX_DIR, "ted-lium"), ted_lium)
+    bar.update(1)
 
-    _maybe_extract(data_dir, os.path.join(LIBRIVOX_DIR, "test-clean"), test_clean)
-    bar.update(1)
-    _maybe_extract(data_dir, os.path.join(LIBRIVOX_DIR, "test-other"), test_other)
-    bar.update(1)
+  # _maybe_extract(data_dir, os.path.join(LIBRIVOX_DIR, "train-clean-100"), train_clean_100)
+  # bar.update(1)
+  # _maybe_extract(data_dir, os.path.join(LIBRIVOX_DIR, "train-clean-360"), train_clean_360)
+  # bar.update(1)
+  # _maybe_extract(data_dir, os.path.join(LIBRIVOX_DIR, "train-other-500"), train_other_500)
+  # bar.update(1)
+  #
+  # _maybe_extract(data_dir, os.path.join(LIBRIVOX_DIR, "dev-clean"), dev_clean)
+  # bar.update(1)
+  # _maybe_extract(data_dir, os.path.join(LIBRIVOX_DIR, "dev-other"), dev_other)
+  # bar.update(1)
+
+  # _maybe_extract(data_dir, os.path.join(LIBRIVOX_DIR, "test-clean"), test_clean)
+  # bar.update(1)
+  # _maybe_extract(data_dir, os.path.join(LIBRIVOX_DIR, "test-other"), test_other)
+  # bar.update(1)
 
   # Convert FLAC data to wav, from:
   # data_dir/LibriSpeech/split/1/2/1-2-3.flac
@@ -108,22 +117,26 @@ def _download_and_preprocess_data(data_dir):
   # ...
   print("Converting FLAC to WAV and splitting transcriptions...")
   with tqdm.tqdm(total=7) as bar:
-    # train_100 = _convert_audio_and_split_sentences(work_dir, "train-clean-100", "train-clean-100-wav")
-    # bar.update(1)
-    # train_360 = _convert_audio_and_split_sentences(work_dir, "train-clean-360", "train-clean-360-wav")
-    # bar.update(1)
-    # train_500 = _convert_audio_and_split_sentences(work_dir, "train-other-500", "train-other-500-wav")
-    # bar.update(1)
-    #
-    # dev_clean = _convert_audio_and_split_sentences(work_dir, "dev-clean", "dev-clean-wav")
-    # bar.update(1)
-    # dev_other = _convert_audio_and_split_sentences(work_dir, "dev-other", "dev-other-wav")
-    # bar.update(1)
 
-    test_clean = _convert_audio_and_split_sentences(work_dir, "test-clean", "test-clean-wav")
+    ted = _convert_audio_and_split_sentences(work_dir, "ted-lium", "ted-lium-wav")
     bar.update(1)
-    test_other = _convert_audio_and_split_sentences(work_dir, "test-other", "test-other-wav")
-    bar.update(1)
+
+  # train_100 = _convert_audio_and_split_sentences(work_dir, "train-clean-100", "train-clean-100-wav")
+  # bar.update(1)
+  # train_360 = _convert_audio_and_split_sentences(work_dir, "train-clean-360", "train-clean-360-wav")
+  # bar.update(1)
+  # train_500 = _convert_audio_and_split_sentences(work_dir, "train-other-500", "train-other-500-wav")
+  # bar.update(1)
+  #
+  # dev_clean = _convert_audio_and_split_sentences(work_dir, "dev-clean", "dev-clean-wav")
+  # bar.update(1)
+  # dev_other = _convert_audio_and_split_sentences(work_dir, "dev-other", "dev-other-wav")
+  # bar.update(1)
+
+  # test_clean = _convert_audio_and_split_sentences(work_dir, "test-clean", "test-clean-wav")
+  # bar.update(1)
+  # test_other = _convert_audio_and_split_sentences(work_dir, "test-other", "test-other-wav")
+  # bar.update(1)
 
   # Write sets to disk as CSV files
   # train_100.to_csv(os.path.join(data_dir, "librivox-train-clean-100.csv"), index=False)
@@ -133,8 +146,8 @@ def _download_and_preprocess_data(data_dir):
   # dev_clean.to_csv(os.path.join(data_dir, "librivox-dev-clean.csv"), index=False)
   # dev_other.to_csv(os.path.join(data_dir, "librivox-dev-other.csv"), index=False)
 
-  test_clean.to_csv(os.path.join(data_dir, "librivox-test-clean.csv"), index=False)
-  test_other.to_csv(os.path.join(data_dir, "librivox-test-other.csv"), index=False)
+  # test_clean.to_csv(os.path.join(data_dir, "librivox-test-clean.csv"), index=False)
+  # test_other.to_csv(os.path.join(data_dir, "librivox-test-other.csv"), index=False)
 
 def _maybe_extract(data_dir, extracted_data, archive):
   # If data_dir/extracted_data does not exist, extract archive in data_dir
@@ -177,8 +190,8 @@ def _convert_audio_and_split_sentences(extracted_dir, data_set, dest_dir):
           # returns a bytes() object on Python 3, and text_to_char_array
           # expects a string.
           transcript = unicodedata.normalize("NFKD", transcript) \
-                      .encode("ascii", "ignore")   \
-                      .decode("ascii", "ignore")
+            .encode("ascii", "ignore") \
+            .decode("ascii", "ignore")
 
           transcript = transcript.lower().strip()
 
