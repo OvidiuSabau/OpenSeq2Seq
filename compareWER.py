@@ -1,25 +1,28 @@
 from sys import argv
 from time import time
 from Levenshtein import distance
-
+import re
 def quickWER(pathTruth, pathHypothesis):
 
+    punctuation_regex = '[\.:,\';\"\(\)\?\!]'
     with open(pathTruth, 'r') as file:
-        truth = file.read()
-
+        truth = file.read().lower()
+        truth = re.sub(punctuation_regex, '', truth)
+        truth = truth.replace('\n', ' ')
     with open(pathHypothesis, 'r') as file:
-        hypothesis = file.read()
+        hypothesis = file.read().lower()
+        hypothesis = re.sub(punctuation_regex, '', hypothesis)
+        hypothesis = hypothesis.replace('\n', ' ')
 
     # build mapping of words to integers
     b = set(truth.split() + hypothesis.split())
     word2char = dict(zip(b, range(len(b))))
-
     # map the words to a char array (Levenshtein packages only accepts
     # strings)
     w1 = [chr(word2char[w]) for w in truth.split()]
     w2 = [chr(word2char[w]) for w in hypothesis.split()]
 
-    return distance(''.join(w1), ''.join(w2))
+    return distance(''.join(w1), ''.join(w2)) / len(truth.split())
 
 def wer(pathTruth, pathHypothesis, debug=False):
 
@@ -119,16 +122,15 @@ def wer(pathTruth, pathHypothesis, debug=False):
         print("#ins " + str(numIns))
 
     wer_result = round((numSub + numDel + numIns) / (float)(len(r)), 3)
-    print('Num Substitutions = ' + str(numSub))
-    print('Num Deletions = ' + str(numDel))
-    print('Num Insertions = ' + str(numIns))
-    print('Total Errors = ' + str(numDel + numIns + numSub))
-    print('Num total words = ' + str(len(r)))
-    print('WER = ' + str(wer_result))
+    # print('Num Substitutions = ' + str(numSub))
+    # print('Num Deletions = ' + str(numDel))
+    # print('Num Insertions = ' + str(numIns))
+    # print('Total Errors = ' + str(numDel + numIns + numSub))
+    # print('Num total words = ' + str(len(r)))
+    # print('WER = ' + str(wer_result))
     print(wer_result)
     return {'WER': wer_result, 'Cor': numCor, 'Sub': numSub, 'Ins': numIns, 'Del': numDel}
 
 if __name__ == "__main__":
-    t0 = time()
-    quickWER(argv[1], argv[2])
-    print(time()-t0)
+    # print('Alt WER = ' + str(wer(argv[1], argv[2])['WER']))
+    print('Quick WER = ' + str(quickWER(argv[1], argv[2])))

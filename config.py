@@ -18,7 +18,7 @@ base_params = {
     "num_epochs": 400,
 
     "num_gpus": 1,
-    "batch_size_per_gpu": 8,
+    "batch_size_per_gpu": 32,
     "iter_size": 1,
 
     # "load_model": 'jasper_checkpoint/',
@@ -213,7 +213,7 @@ eval_params = {
     "data_layer": Speech2TextDataLayer,
     "data_layer_params": {
         "dataset_files": [
-            "/data/librispeech/librivox-dev-clean.csv",
+            "data/LibriSpeech/librivox-test-clean.csv"
         ],
         "shuffle": False,
     },
@@ -224,6 +224,7 @@ infer_params = {
     "data_layer_params": {
         "dataset_files": [
             # insert path to csv here ,
+            # "data/LibriSpeech/librivox-test-clean.csv"
         ],
         "shuffle": False,
     },
