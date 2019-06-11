@@ -5,6 +5,14 @@ import re
 import pandas as pd
 import csv
 
+def inAlphabet(word):
+
+    alphabet = 'abcdefghijklmnopqrstuvwxyz\''
+    for letter in word:
+        if letter not in alphabet:
+            return False
+    return True
+
 def parseEpisode(path2Audio, path2Text, targetDirectory):
 
     branchList = path2Text.split('/')
@@ -23,9 +31,10 @@ def parseEpisode(path2Audio, path2Text, targetDirectory):
         numbers = bodySplit[0].split()
         start = float(numbers[0])
         end = float(numbers[1])
-        regex = '<unk>|\n'
+        regex = '<unk>'
         text = re.sub(regex, '', bodySplit[1])
-        text = ' '.join(text.split())
+        text = ' '.join([x for x in text.split() if inAlphabet(x)])
+        text = text.replace(' \'', '\'')
         write_path = targetDirectory + '/' + fileName + '-{}.wav'.format(i)
         full_audio.write_wav(write_path, start, end)
         size = os.path.getsize(write_path)
