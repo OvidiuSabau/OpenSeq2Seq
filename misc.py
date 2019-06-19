@@ -19,5 +19,6 @@ def splitCSV(path):
     shuffled_df[:n_test_rows].to_csv('test.csv', index=False)
     shuffled_df[n_test_rows:].to_csv('train.csv', index=False)
 
+
 if __name__ == '__main__':
     splitCSV(argv[1])

@@ -3,14 +3,14 @@ import csv
 import sys
 
 def makeCSV(dir):
-    with open(dir + '/model_input.csv', 'w') as csvfile:
+    with open(dir + '/../model_input.csv', 'w') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(['wav_filename', 'wav_filesize'])
         files = os.listdir(dir)
         step = 0
         i = 1
         while not step:
-            if os.path.isfile(path= dir + '/' + str(i) + '.wav'):
+            if os.path.isfile(path=dir + '/' + str(i) + '.wav'):
                 step = i
             i += 1
         last = 0
