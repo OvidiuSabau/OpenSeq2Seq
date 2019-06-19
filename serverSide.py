@@ -10,7 +10,7 @@ from compareWER import quickWER
 from urllib.request import urlretrieve
 from pydub import AudioSegment
 
-target_dir = 'server-side-testing/'
+target_dir = 'server_side_testing/'
 base_config_file = 'config.py'
 
 message = dict({
