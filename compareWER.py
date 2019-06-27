@@ -1,7 +1,8 @@
 from sys import argv
-from time import time
 from Levenshtein import distance
 import re
+
+
 def quickWER(pathTruth, pathHypothesis):
 
     punctuation_regex = '[\.:,\';\"\(\)\?\!]'

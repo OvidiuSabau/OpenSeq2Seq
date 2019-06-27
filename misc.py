@@ -19,6 +19,16 @@ def splitCSV(path):
     shuffled_df[:n_test_rows].to_csv('test.csv', index=False)
     shuffled_df[n_test_rows:].to_csv('train.csv', index=False)
 
+def processMozzilaCSV(dir, csvFile):
+    path2CSV = dir + csvFile
+    # df = pd.read_csv(path2CSV, encoding='utf-8')
+    with open(path2CSV, 'r') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            print(row[0], end='\n\n')
+    # # two_columns = original_df[['path', 'sentence']]
+    # print(two_columns.shape)
+
 
 if __name__ == '__main__':
-    splitCSV(argv[1])
+    processMozzilaCSV(argv[1], argv[2])
