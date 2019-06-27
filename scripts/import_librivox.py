@@ -43,8 +43,8 @@ def _download_and_preprocess_data(data_dir):
   with tqdm.tqdm(total=7) as bar:
 
     # TED_LIUM_URL = "http://www.openslr.org/resources/51/TEDLIUM_release-3.tgz"
-    # TRAIN_CLEAN_100_URL = "http://www.openslr.org/resources/12/train-clean-100.tar.gz"
-    TRAIN_CLEAN_360_URL = "http://www.openslr.org/resources/12/train-clean-360.tar.gz"
+    TRAIN_CLEAN_100_URL = "http://www.openslr.org/resources/12/train-clean-100.tar.gz"
+    # TRAIN_CLEAN_360_URL = "http://www.openslr.org/resources/12/train-clean-360.tar.gz"
     # TRAIN_OTHER_500_URL = "http://www.openslr.org/resources/12/train-other-500.tar.gz"
     #
     # DEV_CLEAN_URL = "http://www.openslr.org/resources/12/dev-clean.tar.gz"
@@ -58,10 +58,10 @@ def _download_and_preprocess_data(data_dir):
     # ted_lium = _maybe_download(filename_of(TED_LIUM_URL), data_dir, TED_LIUM_URL)
     # bar.update(1)
 
-    # train_clean_100 = _maybe_download(filename_of(TRAIN_CLEAN_100_URL), data_dir, TRAIN_CLEAN_100_URL)
-    # bar.update(1)
-    train_clean_360 = _maybe_download(filename_of(TRAIN_CLEAN_360_URL), data_dir, TRAIN_CLEAN_360_URL)
+    train_clean_100 = _maybe_download(filename_of(TRAIN_CLEAN_100_URL), data_dir, TRAIN_CLEAN_100_URL)
     bar.update(1)
+    # train_clean_360 = _maybe_download(filename_of(TRAIN_CLEAN_360_URL), data_dir, TRAIN_CLEAN_360_URL)
+    # bar.update(1)
     # train_other_500 = _maybe_download(filename_of(TRAIN_OTHER_500_URL), data_dir, TRAIN_OTHER_500_URL)
     # bar.update(1)
     #
@@ -86,10 +86,10 @@ def _download_and_preprocess_data(data_dir):
     # _maybe_extract(data_dir, os.path.join(LIBRIVOX_DIR, "ted-lium"), ted_lium)
     # bar.update(1)
 
-  # _maybe_extract(data_dir, os.path.join(LIBRIVOX_DIR, "train-clean-100"), train_clean_100)
-  # bar.update(1)
-    _maybe_extract(data_dir, os.path.join(LIBRIVOX_DIR, "train-clean-360"), train_clean_360)
-    bar.update(1)
+  _maybe_extract(data_dir, os.path.join(LIBRIVOX_DIR, "train-clean-100"), train_clean_100)
+  bar.update(1)
+    # _maybe_extract(data_dir, os.path.join(LIBRIVOX_DIR, "train-clean-360"), train_clean_360)
+    # bar.update(1)
   # _maybe_extract(data_dir, os.path.join(LIBRIVOX_DIR, "train-other-500"), train_other_500)
   # bar.update(1)
   #
@@ -121,10 +121,10 @@ def _download_and_preprocess_data(data_dir):
     ted = _convert_audio_and_split_sentences(work_dir, "ted-lium", "ted-lium-wav")
     bar.update(1)
 
-  # train_100 = _convert_audio_and_split_sentences(work_dir, "train-clean-100", "train-clean-100-wav")
-  # bar.update(1)
-    train_360 = _convert_audio_and_split_sentences(work_dir, "train-clean-360", "train-clean-360-wav")
-    bar.update(1)
+  train_100 = _convert_audio_and_split_sentences(work_dir, "train-clean-100", "train-clean-100-wav")
+  bar.update(1)
+  #  train_360 = _convert_audio_and_split_sentences(work_dir, "train-clean-360", "train-clean-360-wav")
+  #  bar.update(1)
   # train_500 = _convert_audio_and_split_sentences(work_dir, "train-other-500", "train-other-500-wav")
   # bar.update(1)
   #
@@ -139,7 +139,7 @@ def _download_and_preprocess_data(data_dir):
   # bar.update(1)
 
   # Write sets to disk as CSV files
-  # train_100.to_csv(os.path.join(data_dir, "librivox-train-clean-100.csv"), index=False)
+  train_100.to_csv(os.path.join(data_dir, "librivox-train-clean-100.csv"), index=False)
   # train_360.to_csv(os.path.join(data_dir, "librivox-train-clean-360.csv"), index=False)
   # train_500.to_csv(os.path.join(data_dir, "librivox-train-other-500.csv"), index=False)
   #
