@@ -6,7 +6,6 @@ from sox import Transformer
 
 def splitAndConvertMP3(path):
     sound = AudioSegment.from_mp3(file=path)
-    print(path)
     sound = sound.set_frame_rate(16000)
     sound = sound.set_channels(1)
     db = sound.dBFS

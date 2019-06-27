@@ -1,16 +1,13 @@
-from webTranscriptToTXT import webTranscriptToTXT
-from infer2text import infer2text
-from splitAndConvertMP3 import splitAndConvertMP3
-from makeCSV import makeCSV
-import sys
-from subprocess import call
-import os
-from time import time
-from compareWER import quickWER
-from urllib.request import urlretrieve
-from pydub import AudioSegment
-import boto3
 import json
+import os
+from subprocess import call
+from urllib.request import urlretrieve
+
+import boto3
+
+from infer2text import infer2text
+from makeCSV import makeCSV
+from splitAndConvertMP3 import splitAndConvertMP3
 
 target_dir = 'server_side_testing/'
 base_config_file = 'config.py'
@@ -37,7 +34,7 @@ queue = sqs_resource.get_queue_by_name(QueueName=sqs_queue_name)
 while True:
 
     print('** Waiting For Message **')
-    message = queue.receive_message()
+    message = queue.receive_messages()
 
     # If there are few messages in the queue, sometimes this doesn't receive any messages
     if len(message) > 0:
@@ -91,9 +88,8 @@ while True:
         bucket_transcript_location = episode_info['client'] + '/' + episode_info['episodeHashId']
         s3_client.upload_file(system_transcript_location, s3_bucket_name, bucket_transcript_location)
 
+        print('** Deleting Message **')
         sqs_client.delete_message(
             QueueUrl=queue.url,
             ReceiptHandle=receipt_handle
         )
-
-
