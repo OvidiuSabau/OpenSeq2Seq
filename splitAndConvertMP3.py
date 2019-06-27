@@ -1,8 +1,7 @@
-import os
 import sys
+
 from pydub import AudioSegment
-from pydub.silence import split_on_silence
-from sox import Transformer
+
 
 def splitAndConvertMP3(path):
     sound = AudioSegment.from_mp3(file=path)

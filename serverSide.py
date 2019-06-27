@@ -1,16 +1,13 @@
-from webTranscriptToTXT import webTranscriptToTXT
-from infer2text import infer2text
-from splitAndConvertMP3 import splitAndConvertMP3
-from makeCSV import makeCSV
-import sys
-from subprocess import call
-import os
-from time import time
-from compareWER import quickWER
-from urllib.request import urlretrieve
-from pydub import AudioSegment
-import boto3
 import json
+import os
+from subprocess import call
+from urllib.request import urlretrieve
+
+import boto3
+
+from infer2text import infer2text
+from makeCSV import makeCSV
+from splitAndConvertMP3 import splitAndConvertMP3
 
 target_dir = 'server-side-testing/'
 base_config_file = 'config.py'
@@ -84,12 +81,21 @@ while True:
         call(call_args)
 
         print('** Writing Transcription **')
-        infer2text(episode_dir + '/model_output.txt')
+        transcript = infer2text(episode_dir + '/model_output.txt')
 
         print('** Uploading to Bucket **')
-        system_transcript_location = episode_dir + '/prediction_with_spellcheck.txt'
-        bucket_transcript_location = episode_info['client'] + '/' + episode_info['episodeHashId']
-        s3_client.upload_file(system_transcript_location, s3_bucket_name, bucket_transcript_location)
+
+        transcript_dict = dict({'jasper_transcript': transcript})
+        string_transcript_dict = json.dumps(transcript_dict)
+        full_dict = dict({'Body': string_transcript_dict})
+
+        system_full_dict_location = episode_dir + '/full_dict.json'
+
+        with open(system_full_dict_location, 'w') as file:
+            json.dump(full_dict, system_full_dict_location)
+
+        bucket_transcript_location = episode_info['client'] + '/' + episode_info['episodeHashId'] + '.json'
+        s3_client.upload_file(system_full_dict_location, s3_bucket_name, bucket_transcript_location)
 
         sqs_client.delete_message(
             QueueUrl=queue.url,

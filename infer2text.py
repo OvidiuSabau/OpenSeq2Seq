@@ -20,5 +20,6 @@ def infer2text(path):
     with open(path[:-16] + 'prediction_with_spellcheck.txt', 'w') as textfile:
         textfile.write(file)
 
+    return file
 if __name__ == '__main__':
     infer2text(sys.argv[1])
