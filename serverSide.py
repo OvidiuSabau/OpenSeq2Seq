@@ -86,16 +86,16 @@ while True:
         print('** Uploading to Bucket **')
 
         transcript_dict = dict({'jasper_transcript': transcript})
-        string_transcript_dict = json.dumps(transcript_dict)
-        full_dict = dict({'Body': string_transcript_dict})
+        # string_transcript_dict = json.dumps(transcript_dict)
+        # full_dict = dict({'Body': string_transcript_dict})
 
-        system_full_dict_location = episode_dir + '/full_dict.json'
+        system_transcript_dict_location = episode_dir + '/transcript_dict.json'
 
-        with open(system_full_dict_location, 'w') as file:
-            json.dump(full_dict, system_full_dict_location)
+        with open(system_transcript_dict_location, 'w') as file:
+            json.dump(transcript_dict, system_transcript_dict_location)
 
         bucket_transcript_location = episode_info['client'] + '/' + episode_info['episodeHashId'] + '.json'
-        s3_client.upload_file(system_full_dict_location, s3_bucket_name, bucket_transcript_location)
+        s3_client.upload_file(system_transcript_dict_location, s3_bucket_name, bucket_transcript_location)
 
         sqs_client.delete_message(
             QueueUrl=queue.url,
