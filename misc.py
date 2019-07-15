@@ -3,6 +3,7 @@ from os import listdir
 from sys import argv
 import csv
 import pandas as pd
+import boto3
 
 def getTotalLength(dir):
 
@@ -30,5 +31,12 @@ def processMozzilaCSV(dir, csvFile):
     # print(two_columns.shape)
 
 
+def testGetObject():
+    s3_bucket_name = 'adswizz-randi-jasper-dev'
+    s3_file = 'test/22222222222222222222222.json'
+    s3_client = boto3.client('s3')
+    s3_client.download_file(s3_bucket_name, s3_file, 's3_file.json')
+
 if __name__ == '__main__':
-    processMozzilaCSV(argv[1], argv[2])
+    # processMozzilaCSV(argv[1], argv[2])
+    testGetObject()
