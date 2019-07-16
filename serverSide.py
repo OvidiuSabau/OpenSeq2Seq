@@ -71,25 +71,25 @@ while True:
         print('** Downloading MP3 File **')
         urlretrieve(episode_info['episodeUrl'], mp3_location)
 
-        # print('** Processing MP3 File **')
-        # call_args = ['mkdir', episode_dir + '/wavs']
-        # call(call_args)
-        # splitAndConvertMP3(mp3_location)
-        #
-        # print('** Creating Model Input File **')
-        # makeCSV(episode_dir + '/wavs')
-        #
-        # print('** Creating Config File **')
-        # with open(base_config_file, 'r') as config_file:
-        #     config = config_file.read()
-        # config = config.replace('# insert path to csv here', '\'' + episode_dir + '/model_input.csv' + '\'')
-        # with open(episode_dir + '/config.py', 'w') as config_file:
-        #     config_file.write(config)
-        #
-        # print('** Calling Model From Terminal **')
-        # call_args = ['python', 'run.py', '--config_file=' + episode_dir + "/config.py", '--mode=infer',
-        #              '--infer_output_file=' + episode_dir + '/model_output.txt']
-        # call(call_args)
+        print('** Processing MP3 File **')
+        call_args = ['mkdir', episode_dir + '/wavs']
+        call(call_args)
+        splitAndConvertMP3(mp3_location)
+
+        print('** Creating Model Input File **')
+        makeCSV(episode_dir + '/wavs')
+
+        print('** Creating Config File **')
+        with open(base_config_file, 'r') as config_file:
+            config = config_file.read()
+        config = config.replace('# insert path to csv here', '\'' + episode_dir + '/model_input.csv' + '\'')
+        with open(episode_dir + '/config.py', 'w') as config_file:
+            config_file.write(config)
+
+        print('** Calling Model From Terminal **')
+        call_args = ['python', 'run.py', '--config_file=' + episode_dir + "/config.py", '--mode=infer',
+                     '--infer_output_file=' + episode_dir + '/model_output.txt']
+        call(call_args)
 
         print('** Writing Transcription **')
         transcript = infer2text(episode_dir + '/model_output.txt')
