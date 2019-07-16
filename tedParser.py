@@ -5,6 +5,7 @@ import re
 import pandas as pd
 import csv
 
+
 def inAlphabet(word):
 
     alphabet = 'abcdefghijklmnopqrstuvwxyz\''
@@ -12,6 +13,7 @@ def inAlphabet(word):
         if letter not in alphabet:
             return False
     return True
+
 
 def parseEpisode(path2Audio, path2Text, targetDirectory):
 

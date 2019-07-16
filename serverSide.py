@@ -34,7 +34,7 @@ queue = sqs_resource.get_queue_by_name(QueueName=sqs_queue_name)
 while True:
 
     print('** Waiting For Message **')
-    message = queue.receive_message()
+    message = queue.receive_messages()
 
     # If there are few messages in the queue, sometimes this doesn't receive any messages
     if len(message) > 0:

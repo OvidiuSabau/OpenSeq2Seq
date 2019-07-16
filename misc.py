@@ -5,6 +5,7 @@ import csv
 import pandas as pd
 import boto3
 
+
 def getTotalLength(dir):
 
     n = 0
