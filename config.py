@@ -18,10 +18,9 @@ base_params = {
     "num_epochs": 400,
 
     "num_gpus": 1,
-    "batch_size_per_gpu": 32,
+    "batch_size_per_gpu": 64,
     "iter_size": 1,
 
-    # "load_model": 'jasper_checkpoint/',
     "save_summaries_steps": 100,
     "print_loss_steps": 10,
     "print_samples_steps": 2200,
@@ -225,7 +224,6 @@ infer_params = {
     "data_layer_params": {
         "dataset_files": [
             # insert path to csv here ,
-            # "data/LibriSpeech/librivox-test-clean.csv"
         ],
         "shuffle": False,
     },
